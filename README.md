@@ -1,5 +1,5 @@
 # CIFAR 10 Dataset Library
-This library was created to allow an easy usage of [CIFAR 10 DATA](https://www.cs.toronto.edu/~kriz/cifar.html). This is a wrapper around the instructions givn on the [CIFAR 10 site](https://www.cs.toronto.edu/~kriz/cifar.html)
+This library was created to allow an easy usage of [CIFAR 10 DATA](https://www.cs.toronto.edu/~kriz/cifar.html). This is a wrapper around the instructions given on the [CIFAR 10 Site](https://www.cs.toronto.edu/~kriz/cifar.html)
 
 ## Installation
 ```bash
@@ -10,7 +10,13 @@ pip3 install cifar10
 ```python
 import cifar10
 
+# Train data
 for image, label in cifar10.data_batch_generator():
+    image # numpy array of an image, which is of shape 32 x 32 x 3
+    label # integer value of the image label
+
+# Test data
+for image, label in cifar10.test_batch_generator():
     image # numpy array of an image, which is of shape 32 x 32 x 3
     label # integer value of the image label
 ```

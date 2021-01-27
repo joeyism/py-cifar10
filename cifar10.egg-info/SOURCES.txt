@@ -1,0 +1,11 @@
+README.rst
+setup.cfg
+setup.py
+cifar10/__init__.py
+cifar10/cifar10.py
+cifar10/download.py
+cifar10.egg-info/PKG-INFO
+cifar10.egg-info/SOURCES.txt
+cifar10.egg-info/dependency_links.txt
+cifar10.egg-info/requires.txt
+cifar10.egg-info/top_level.txt
