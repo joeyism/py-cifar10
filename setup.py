@@ -7,7 +7,7 @@ here = path.abspath(path.dirname(__file__))
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('s3aads/__init__.py').read(),
+    open('cifar10/__init__.py').read(),
     re.M
     ).group(1)
 
