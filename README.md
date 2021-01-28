@@ -25,7 +25,7 @@ for image, label in cifar10.test_batch_generator():
 
 ### data_batch_generator
 Returns a generator of each image and label pair for data batch
-```
+```python
 data_batch_generator(cache_location: str=".") -> Iterator[Tuple[np.array, int]]
 ```
 #### parameters
@@ -33,7 +33,7 @@ data_batch_generator(cache_location: str=".") -> Iterator[Tuple[np.array, int]]
 
 ### test_batch_generator
 Returns a generator of each image and label pair for test batch
-```
+```python
 test_batch_generator(cache_location: str=".") -> Iterator[Tuple[np.array, int]]
 ```
 #### parameters
@@ -41,15 +41,23 @@ test_batch_generator(cache_location: str=".") -> Iterator[Tuple[np.array, int]]
 
 ### meta
 Returns the raw meta file
-```
+```python
 meta(cache_location: str=".") -> Dict[bytes, Any]
 ```
 #### parameters
 * `cache_location` (default: library folder location): where to cache the cifar10 data
 
 ### image_label_map
-Returns the raw meta file
+Returns a dictionary of label
 ```
+{
+    0: 'airplane',
+    1: 'automobile',
+    ...
+}
+```
+
+```python
 image_label_map(cache_location: str=".") -> Dict[int, str]
 ```
 #### parameters
