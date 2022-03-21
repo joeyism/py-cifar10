@@ -10,7 +10,8 @@ import numpy as np
 
 CURRENT_FILE_FOLDER = Path(__file__).parents[1].as_posix()
 
-def download_data(cache_location: str=CURRENT_FILE_FOLDER) -> Path:
+
+def download_data(cache_location: str = CURRENT_FILE_FOLDER) -> Path:
     """
     Downloads CIFAR 10 data and caches them
     """
@@ -23,7 +24,9 @@ def download_data(cache_location: str=CURRENT_FILE_FOLDER) -> Path:
     if targz_path.exists():
         return cache_folder / "cifar-10-batches-py"
 
-    download.download_from_url("https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz", targz_path.as_posix())
+    download.download_from_url(
+        "https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz", targz_path.as_posix()
+    )
 
     tar = tarfile.open(targz_path.as_posix())
     tar.extractall(path=cache_folder.as_posix())
@@ -32,8 +35,8 @@ def download_data(cache_location: str=CURRENT_FILE_FOLDER) -> Path:
 
 
 def _extract_file_(fname):
-    with open(fname, 'rb') as fo:
-        d = pickle.load(fo, encoding='bytes')
+    with open(fname, "rb") as fo:
+        d = pickle.load(fo, encoding="bytes")
     return d
 
 
@@ -44,7 +47,7 @@ def _unflatten_image_(img_flat):
     img = np.dstack((img_R, img_G, img_B))
     return img
 
-  
+
 def _extract_reshape_file_(fname):
     res = []
     d = _extract_file_(fname)
@@ -53,18 +56,19 @@ def _extract_reshape_file_(fname):
     for image, label in zip(images, labels):
         res.append((_unflatten_image_(image), label))
     return res
-  
-  
+
+
 def get_images_from(dir, startswith) -> Iterator[Tuple[np.array, int]]:
     files = [f for f in os.listdir(dir) if f.startswith(startswith)]
     res = []
     for f in files:
         res = res + _extract_reshape_file_(os.path.join(dir, f))
-        for (image, label) in res:
-            yield image, label
+
+    for (image, label) in res:
+        yield image, label
 
 
-def data_batch_generator(cache_location: str=".") -> Iterator[Tuple[np.array, int]]:
+def data_batch_generator(cache_location: str = ".") -> Iterator[Tuple[np.array, int]]:
     """
     Returns a generator of each image and label pair for data batch
     ========
@@ -83,7 +87,8 @@ def data_batch_generator(cache_location: str=".") -> Iterator[Tuple[np.array, in
     cache_path = download_data(cache_location=cache_location)
     return get_images_from(cache_path.as_posix(), startswith="data_batch")
 
-def test_batch_generator(cache_location: str=".") -> Iterator[Tuple[np.array, int]]:
+
+def test_batch_generator(cache_location: str = ".") -> Iterator[Tuple[np.array, int]]:
     """
     Returns a generator of each image and label pair for test batch
     ========
@@ -100,9 +105,10 @@ def test_batch_generator(cache_location: str=".") -> Iterator[Tuple[np.array, in
         ...
     """
     cache_path = download_data(cache_location=cache_location)
-    return get_images_from(cache_path.as_posix(), startswith="data_batch")
+    return get_images_from(cache_path.as_posix(), startswith="test_batch")
 
-def meta(cache_location: str=".") -> Dict[bytes, Any]:
+
+def meta(cache_location: str = ".") -> Dict[bytes, Any]:
     """
     Returns the raw meta file
     ========
@@ -115,7 +121,8 @@ def meta(cache_location: str=".") -> Dict[bytes, Any]:
     cache_path = download_data(cache_location=cache_location)
     return _extract_file_((cache_path / "batches.meta").as_posix())
 
-def image_label_map(cache_location: str=".") -> Dict[int, str]:
+
+def image_label_map(cache_location: str = ".") -> Dict[int, str]:
     """
     Map for converting int to label name
     ========
@@ -131,4 +138,6 @@ def image_label_map(cache_location: str=".") -> Dict[int, str]:
         }
     """
     meta_file = meta(cache_location=cache_location)
-    return dict((i, lbl.decode("utf8")) for i, lbl in enumerate(meta_file[b"label_names"]))
+    return dict(
+        (i, lbl.decode("utf8")) for i, lbl in enumerate(meta_file[b"label_names"])
+    )
